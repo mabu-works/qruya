@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>きゅるや｜QRコードメーカー</title>
+<meta name="description" content="テキストやURLからQRコードをブラウザだけで作れるQRコードメーカー。サイズ・色・誤り訂正レベルを選んでPNGでダウンロードできます。">
+<meta name="theme-color" content="#0a0f1c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script>
+try {
+  var savedTheme = localStorage.getItem("qruya-theme");
+  if (savedTheme === "light" || savedTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+} catch (e) { /* テーマ保存が使えない環境ではダークを既定にする */ }
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 🧭 トップバー -->
+<nav class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top">きゅるや</a>
+    <span class="topbar-links">
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">🌙</button>
+    </span>
+  </div>
+</nav>
+
+<!-- 🏠 ヘッダー -->
+<header class="site-header" id="top">
+  <p class="eyebrow">QR CODE MAKER</p>
+  <h1>きゅるや</h1>
+  <p class="tagline">QRコードメーカー</p>
+</header>
+
+<!-- 📄 メイン -->
+<main>
+  <section class="card">
+    <h2>テキスト・URL</h2>
+    <textarea id="inputText" rows="4" placeholder="QRコードにしたいテキストやURLを入力してください&#10;例：https://example.com/"></textarea>
+    <div class="actions">
+      <button id="urlPresetBtn" class="btn btn-sub" type="button">URLの例を入れる</button>
+      <button id="mabusabaPresetBtn" class="btn btn-sub" type="button">まぶ鯖の招待リンクを入れる</button>
+      <button id="clearBtn" class="btn btn-sub" type="button">クリア</button>
+    </div>
+    <p class="note">日本語などの文字もUTF-8で符号化します。入力内容はブラウザ内でのみ処理され、外部に送信されません。</p>
+  </section>
+
+  <section class="card">
+    <h2>設定</h2>
+    <div class="settings">
+      <div class="field">
+        <label for="sizeSelect">出力サイズ（PNG）</label>
+        <select id="sizeSelect">
+          <option value="256">256 × 256 px</option>
+          <option value="512" selected>512 × 512 px</option>
+          <option value="1024">1024 × 1024 px</option>
+          <option value="2048">2048 × 2048 px</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="eclSelect">誤り訂正レベル</label>
+        <select id="eclSelect">
+          <option value="L">L（約7%復元）</option>
+          <option value="M" selected>M（約15%復元）</option>
+          <option value="Q">Q（約25%復元）</option>
+          <option value="H">H（約30%復元）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fgColor">前景色（模様の色）</label>
+        <input id="fgColor" type="color" value="#000000">
+      </div>
+      <div class="field">
+        <label for="bgColor">背景色</label>
+        <input id="bgColor" type="color" value="#ffffff">
+      </div>
+    </div>
+    <p class="note">誤り訂正レベルを上げるほど汚れや欠けに強くなりますが、同じ文字数でも模様が細かくなり、収まる文字数は減ります。読み取りやすくするには、前景色と背景色のコントラストを十分に取ってください。</p>
+  </section>
+
+  <section class="card preview-card">
+    <h2>プレビュー</h2>
+    <div class="preview-wrap">
+      <canvas id="qrCanvas" width="512" height="512" aria-label="QRコードのプレビュー"></canvas>
+      <p id="emptyMsg" class="empty-msg">テキストを入力すると、ここにQRコードが表示されます</p>
+    </div>
+    <p id="statusMsg" class="note" aria-live="polite"></p>
+    <p id="errorMsg" class="error" aria-live="polite"></p>
+    <div class="actions">
+      <button id="generateBtn" class="btn btn-primary" type="button">QRコードを作る</button>
+      <button id="downloadBtn" class="btn btn-sub" type="button" disabled>PNGでダウンロード</button>
+    </div>
+  </section>
+</main>
+
+<!-- 📎 フッター -->
+<footer class="site-footer">
+  <p>きゅるや — 入力内容はブラウザ内でのみ処理されます</p>
+  <p>QRコードは株式会社デンソーウェーブの登録商標です</p>
+</footer>
+
+<script src="lib/qrcode.js"></script>
+<script src="js/qr-core.js"></script>
+<script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

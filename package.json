@@ -1,0 +1,1 @@
+{"description":"きゅるや｜QRコードメーカー","name":"qruya","private":true,"scripts":{"check":"node --check app.js && node --check js/qr-core.js && node --check sw.js && node -e \"JSON.parse(require('fs').readFileSync('manifest.webmanifest', 'utf8')); JSON.parse(require('fs').readFileSync('package.json', 'utf8'))\"","test":"node --test"},"version":"1.0.0"}
