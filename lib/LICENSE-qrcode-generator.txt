@@ -1,0 +1,17 @@
+qrcode-generator (QR Code Generator for JavaScript)
+Version: 1.4.4
+File: lib/qrcode.js
+Source: https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js
+
+Copyright (c) 2009 Kazuhiko Arase
+URL: http://www.d-project.com/
+
+Licensed under the MIT license:
+  http://www.opensource.org/licenses/mit-license.php
+
+The word 'QR Code' is registered trademark of
+DENSO WAVE INCORPORATED
+  http://www.denso-wave.com/qrcode/faqpatent-e.html
+
+The full license header is also included at the top of lib/qrcode.js itself.
+This library is vendored locally; the service does not load it from a CDN at runtime.
